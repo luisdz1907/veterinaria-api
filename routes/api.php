@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\TipoAnimalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,9 +43,15 @@ Route::group(['middleware' => ['jwt.verify']], function(){
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    
+    //medico
     route::post('medico',[MedicoController::class, 'postCreateMedico']);
     route::get('medico',[MedicoController::class, 'getAllMedico']);
     route::put('medico/{id}',[MedicoController::class, 'putUpdateMedico']);
     route::delete('medico/{id}',[MedicoController::class, 'deleteMedico']);
+    //tipo animal
+    route::post('tipoanimal',[TipoAnimalController::class, 'postCreateTipoAnimal']);
+    route::get('tipoanimal',[TipoAnimalController::class, 'getAllTipoAnimal']);
+    route::put('tipoanimal/{id}',[TipoAnimalController::class, 'putTipoAnimal']);
+    route::delete('tipoanimal/{id}',[TipoAnimalController::class, 'deleteTipoAnimal']);
 });
+    

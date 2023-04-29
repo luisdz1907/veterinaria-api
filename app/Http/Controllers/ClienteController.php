@@ -78,7 +78,7 @@ class ClienteController extends Controller
             'message' => $cliente
         ], 200);
 
-    }
+}
 
 
     public function deleteCliente(string $id)

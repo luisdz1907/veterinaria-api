@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tipoanimals', function (Blueprint $table) {
             $table->id();
-            $table->enum("nombre_tipo",['Mamifero','Ave','Reptil','Peces']);
+            $table->string('nombre_tipo',100);
             $table->timestamps();
             $table->softDeletes();
         });
