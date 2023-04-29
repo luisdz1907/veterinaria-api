@@ -49,8 +49,34 @@ class ClienteController extends Controller
 
 
 
-    public function putCliente(Request $request, Cliente $cliente)
+    public function putCliente(Request $request, string $id)
     {
+        //Validaciones
+        $rules = [
+            'nombres' => 'min:1',
+            'apellidos' => 'min:1',
+            'identificacion' => 'min:1',
+            'telefono' => 'min:1',
+            'email' => 'min:1',
+            'direccion' => 'min:1',
+        ];
+
+        $validated = FacadesValidator::make($request->all(), $rules);
+               //mensaje error en validaciones
+        if ($validated->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validated->errors()->all()
+            ], 400);
+        }
+
+        //Avtualizamos el medico y retornamos un mensaje de exito
+        $cliente = Cliente::findOrfail($id);   
+        $clienteActualizado = $cliente->update($request->all());
+        return response()->json([
+            'status' => true,
+            'message' => $cliente
+        ], 200);
 
     }
 

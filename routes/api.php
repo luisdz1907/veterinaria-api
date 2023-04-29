@@ -45,8 +45,6 @@ Route::group(['middleware' => ['jwt.verify']], function(){
     
     route::post('medico',[MedicoController::class, 'postCreateMedico']);
     route::get('medico',[MedicoController::class, 'getAllMedico']);
-   // route::get('medico',[MedicoController::class, 'getAllMedico']);
+    route::put('medico/{id}',[MedicoController::class, 'putUpdateMedico']);
     route::delete('medico/{id}',[MedicoController::class, 'deleteMedico']);
-
-
 });
