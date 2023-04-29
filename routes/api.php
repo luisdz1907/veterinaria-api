@@ -16,14 +16,11 @@ use App\Http\Controllers\ClienteController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::post('cliente',[ClienteController::class, 'postCreateUser']);
-Route::get('cliente',[ClienteController::class, 'getAllClientes']);
-// Route::patch('cliente',[ClienteController::class, 'putUpdateCliente']);
-Route::delete('cliente/{id}',[ClienteController::class, 'deleteCliente']);
+
 
 Route::group([
     'middleware' => 'api',
@@ -31,7 +28,18 @@ Route::group([
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/logout', [AuthController::class, 'logout']);
     // Route::post('/refresh', [AuthController::class, 'refresh']);
+});
+
+Route::group(['middleware' => ['jwt.verify']], function(){
+    //Cliente
+    Route::post('cliente',[ClienteController::class, 'postCreateUser']);
+    Route::get('cliente',[ClienteController::class, 'getAllClientes']);
+    Route::patch('cliente',[ClienteController::class, 'putCliente']);
+    Route::delete('cliente/{id}',[ClienteController::class, 'deleteCliente']);
+
+
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    
 });
