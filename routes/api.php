@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\MedicoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::group(['middleware' => ['jwt.verify']], function(){
     //Cliente
     Route::post('cliente',[ClienteController::class, 'postCreateUser']);
     Route::get('cliente',[ClienteController::class, 'getAllClientes']);
-    Route::patch('cliente',[ClienteController::class, 'putCliente']);
+    //Route::patch('cliente',[ClienteController::class, 'putCliente']);
     Route::delete('cliente/{id}',[ClienteController::class, 'deleteCliente']);
 
 
@@ -42,4 +43,10 @@ Route::group(['middleware' => ['jwt.verify']], function(){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     
+    route::post('medico',[MedicoController::class, 'postCreateMedico']);
+    route::get('medico',[MedicoController::class, 'getAllMedico']);
+   // route::get('medico',[MedicoController::class, 'getAllMedico']);
+    route::delete('medico/{id}',[MedicoController::class, 'deleteMedico']);
+
+
 });
