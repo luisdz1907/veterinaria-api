@@ -24,7 +24,7 @@ class MedicoController extends Controller
         $rules = [
             'nombre' => 'required',
             'apellidos' => 'required',
-            'celular' => 'required|min:10',
+            'celular' => 'required',
             'email' => 'required',
             'direccion' => 'required',
         ];

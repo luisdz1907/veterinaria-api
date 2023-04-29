@@ -44,12 +44,12 @@ class ClienteController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Cliente creado'
-        ], 200);
+        ], 201);
     }
 
 
 
-    public function putUpdateCliente(Request $request, Cliente $cliente)
+    public function putCliente(Request $request, Cliente $cliente)
     {
 
     }
