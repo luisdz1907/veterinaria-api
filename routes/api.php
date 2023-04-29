@@ -28,7 +28,6 @@ Route::group([
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-    // Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
 Route::group(['middleware' => ['jwt.verify']], function(){
@@ -41,5 +40,6 @@ Route::group(['middleware' => ['jwt.verify']], function(){
 
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
     
 });
