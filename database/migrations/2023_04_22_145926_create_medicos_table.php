@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("celular",45)->nullable();
             $table->string("email",100);
             $table->string("direccion",100);
+            $table->boolean('estado');
             $table->timestamps();
             $table->softDeletes();
         });
