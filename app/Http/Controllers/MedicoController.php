@@ -59,7 +59,7 @@ class MedicoController extends Controller
         ];
 
         $validated = FacadesValidator::make($request->all(), $rules);
-               //mensaje error en validaciones
+        //mensaje error en validaciones
         if ($validated->fails()) {
             return response()->json([
                 'status' => false,
@@ -67,9 +67,9 @@ class MedicoController extends Controller
             ], 400);
         }
 
-        //Avtualizamos el medico y retornamos un mensaje de exito
+        //Actualizamos el medico y retornamos un mensaje de exito
         $medico = Medico::findOrfail($id);   
-        $medicoActualizado = $medico->update($request->all());
+        $medico->update($request->all());
         return response()->json([
             'status' => true,
             'message' => $medico

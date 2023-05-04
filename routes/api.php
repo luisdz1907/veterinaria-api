@@ -7,22 +7,6 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\TipoAnimalController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
 
 Route::group([
     'middleware' => 'api',
@@ -32,22 +16,25 @@ Route::group([
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::group(['middleware' => ['jwt.verify']], function(){
+Route::group(['middleware' => ['jwt.verify','upload']], function(){
     //Cliente
     Route::post('cliente',[ClienteController::class, 'postCreateUser']);
     Route::get('cliente',[ClienteController::class, 'getAllClientes']);
     //Route::patch('cliente',[ClienteController::class, 'putCliente']);
     Route::delete('cliente/{id}',[ClienteController::class, 'deleteCliente']);
 
-
+    //usuario
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::post('/user-profile/{id}/profile-picture', [AuthController::class, 'updateProfilePicture']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
+    
     //medico
     route::post('medico',[MedicoController::class, 'postCreateMedico']);
     route::get('medico',[MedicoController::class, 'getAllMedico']);
     route::put('medico/{id}',[MedicoController::class, 'putUpdateMedico']);
     route::delete('medico/{id}',[MedicoController::class, 'deleteMedico']);
+    
     //tipo animal
     route::post('tipoanimal',[TipoAnimalController::class, 'postCreateTipoAnimal']);
     route::get('tipoanimal',[TipoAnimalController::class, 'getAllTipoAnimal']);

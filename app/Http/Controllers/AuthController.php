@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -17,6 +18,7 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
+    // Inciar Sesion
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -37,6 +39,14 @@ class AuthController extends Controller
         return $this->createNewToken($token);
     }
 
+    // Cerrar Sesion
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json(['message' => 'User successfully signed out']);
+    }
+
+    // Crear Nuevo Usuario
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -61,13 +71,40 @@ class AuthController extends Controller
         ], 201);
     }
 
-
-    public function logout()
+    // Actualizar Foto De Perfil Del Usuario
+    public function updateProfilePicture(Request $request, $id)
     {
-        auth()->logout();
-        return response()->json(['message' => 'User successfully signed out']);
+        $user = User::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->extension();
+            $request->image->move(public_path("profile-img"), $filename);
+            $user->profile_picture = $filename;
+            $user->save();
+
+            return response()->json([
+                'message' => 'Imagen de perfil subida con exito',
+                'profile_picture' => $filename
+            ]);
+        }
     }
 
+    // Obtener La Informacion Completa Del Usuario
+    public function userProfile()
+    {
+        return response()->json(auth()->user());
+    }
+
+    // Refrescar Token
     public function refresh()
     {
         return response()->json([
@@ -80,12 +117,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function userProfile()
-    {
-        return response()->json(auth()->user());
-    }
-
-
+    // Gnererar Token
     protected function createNewToken($token)
     {
         return response()->json([
