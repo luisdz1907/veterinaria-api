@@ -14,6 +14,7 @@ class Medico extends Model
         'apellidos',
         'celular',
         'email',
+        'estado',
         'direccion'
     ];
 }

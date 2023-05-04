@@ -26,6 +26,7 @@ class MedicoController extends Controller
             'apellidos' => 'required',
             'celular' => 'required',
             'email' => 'required',
+            'estado' => 'required',
             'direccion' => 'required',
         ];
 
@@ -55,6 +56,7 @@ class MedicoController extends Controller
             'apellidos' => 'min:1',
             'celular' => 'min:1',
             'email' => 'min:1',
+            'estado' => 'min:1',
             'direccion' => 'min:1'
         ];
 
