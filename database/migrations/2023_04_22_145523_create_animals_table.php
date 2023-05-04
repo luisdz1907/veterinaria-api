@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum("esteril",['si','no']);
             $table->string("edad",100);
             $table->foreignId('clientes_id')->constrained()->onDelete('cascade');
-            $table->foreignId('tipoanimal_id')->constrained()->nullable();
+            $table->foreignId('tipo_animals_id')->constrained()->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
