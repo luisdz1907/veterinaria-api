@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Medico\CreateRequest;
 use App\Models\Medico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
@@ -19,26 +20,8 @@ class MedicoController extends Controller
     }
 
 
-    public function postCreateMedico(Request $request)
+    public function postCreateMedico(CreateRequest $request)
     {
-        $rules = [
-            'nombre' => 'required',
-            'apellidos' => 'required',
-            'identificacion' => 'required',
-            'celular' => 'required',
-            'email' => 'required',
-            'estado' => 'required',
-            'direccion' => 'required',
-        ];
-
-        $validated = FacadesValidator::make($request->all(), $rules);
-
-        if ($validated->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validated->errors()->all()
-            ], 400);
-        }
         $medico = new Medico($request->all());
         $medico->save();
         return response()->json([
@@ -49,37 +32,19 @@ class MedicoController extends Controller
 
 
 
-    public function putMedico(Request $request, String $id)
+    public function putUpdateMedico(CreateRequest $request, String $id)
     {
-        //Validaciones
-        $rules = [
-            'nombre' => 'min:1',
-            'apellidos' => 'min:1',
-            'identificacion' => 'min:5',
-            'celular' => 'min:1',
-            'email' => 'min:1',
-            'estado' => 'min:1',
-            'direccion' => 'min:1'
-        ];
-
-        $validated = FacadesValidator::make($request->all(), $rules);
-        //mensaje error en validaciones
-        if ($validated->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validated->errors()->all()
-            ], 400);
-        }
-
-        //Actualizamos el medico y retornamos un mensaje de exito
-
+        //Buscamos el Id que se actualizará 
         $medico = Medico::findOrfail($id);
+        //Actualizamos
         $medico->update($request->all());
+
+        //Mensaje Exito
         return response()->json([
             'status' => true,
             'message' => $medico
         ], 200);
-}
+    }
 
 
     public function deleteMedico(string $id)

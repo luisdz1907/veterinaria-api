@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TipoAnimal\CreateRequest;
 use App\Models\TipoAnimal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
@@ -11,55 +12,36 @@ class TipoAnimalController extends Controller
     public function getAllTipoAnimal()
     {
         $tipoanimal = TipoAnimal::all();
+        
+        //Mensaje de error
         return response()->json($tipoanimal);
         if ($tipoanimal->count() == 0) {
             return response()->json(['message' => 'No existen registros'], 200);
         }
+
     }
 
-    public function postCreateTipoAnimal(Request $request){
-        $rules = [
-            'nombre_tipo' => 'required'
-        ];
-
-        $validated = FacadesValidator::make($request->all(), $rules);
-        
-        if ($validated->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validated->errors()->all()
-            ], 400);
-        }
-
+    public function postCreateTipoAnimal(CreateRequest $request)
+    {
         $tipoanimal = new TipoAnimal($request->all());
         $tipoanimal->save();
 
+        //Mensaje de exito
         return response()->json([
             'status' => true,
             'message' => 'Tipo de animal creado'
         ], 200);
+
     }
 
-    public function putTipoAnimal(Request $request, string $id)
+    public function putTipoAnimal(CreateRequest $request, string $id)
     {
-        
-        //Validaciones
-        $rules = [
-            'nombre_tipo' => 'min:1'
-        ];
-
-        $validated = FacadesValidator::make($request->all(), $rules);
-        //mensaje error en validaciones
-        if ($validated->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validated->errors()->all()
-            ], 400);
-        }
-
         //Actualizamos el tipo animal y retornamos un mensaje de exito
         $tipoAnimal = TipoAnimal::findOrfail($id);   
-        $TipoAnimalActualizado = $tipoAnimal->update($request->all());
+        //Actualizamos
+        $tipoAnimal->update($request->all());
+
+        //mensaje de exito
         return response()->json([
             'status' => true,
             'message' => $tipoAnimal
@@ -71,6 +53,8 @@ class TipoAnimalController extends Controller
     {
         $TipoAnimal = TipoAnimal::findOrFail($id);
         $TipoAnimal->delete();
+        
+        //Mensaje de exito
         return response()->json([
             'status' => true,
             'message' => 'Tipo de animal eliminado correctamente'

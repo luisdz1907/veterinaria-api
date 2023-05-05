@@ -27,13 +27,13 @@ Route::group(['middleware' => ['jwt.verify','upload']], function(){
     //Rutas : Cliente
     Route::post('cliente',[ClienteController::class, 'postCreateUser']);
     Route::get('cliente',[ClienteController::class, 'getAllClientes']);
-    Route::put('cliente/{id}',[ClienteController::class, 'update']);
+    Route::put('cliente/{id}',[ClienteController::class, 'putcliente']);
     Route::delete('cliente/{id}',[ClienteController::class, 'deleteCliente']);    
     
     //Rutas : medico
     route::post('medico',[MedicoController::class, 'postCreateMedico']);
     route::get('medico',[MedicoController::class, 'getAllMedico']);
-    route::put('medico/{id}',[MedicoController::class, 'putMedico']);
+    route::put('medico/{id}',[MedicoController::class, 'putUpdateMedico']);
     route::delete('medico/{id}',[MedicoController::class, 'deleteMedico']);
     
     // Rutas : tipo animal
