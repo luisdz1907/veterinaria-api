@@ -24,6 +24,7 @@ class MedicoController extends Controller
         $rules = [
             'nombre' => 'required',
             'apellidos' => 'required',
+            'identificacion' => 'required',
             'celular' => 'required',
             'email' => 'required',
             'estado' => 'required',
@@ -48,12 +49,13 @@ class MedicoController extends Controller
 
 
 
-    public function putUpdateMedico(Request $request, String $id)
+    public function putMedico(Request $request, String $id)
     {
         //Validaciones
         $rules = [
             'nombre' => 'min:1',
             'apellidos' => 'min:1',
+            'identificacion' => 'min:5',
             'celular' => 'min:1',
             'email' => 'min:1',
             'estado' => 'min:1',
@@ -70,7 +72,8 @@ class MedicoController extends Controller
         }
 
         //Actualizamos el medico y retornamos un mensaje de exito
-        $medico = Medico::findOrfail($id);   
+
+        $medico = Medico::findOrfail($id);
         $medico->update($request->all());
         return response()->json([
             'status' => true,

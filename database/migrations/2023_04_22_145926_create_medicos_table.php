@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string("nombre",45);
             $table->string("apellidos",45);
+            $table->string('identificacion')->unique();
             $table->string("celular",45)->nullable();
-            $table->string("email",100);
+            $table->string("email",100)->unique();
             $table->string("direccion",100);
             $table->boolean('estado');
             $table->timestamps();

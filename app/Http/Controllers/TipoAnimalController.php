@@ -49,7 +49,7 @@ class TipoAnimalController extends Controller
         ];
 
         $validated = FacadesValidator::make($request->all(), $rules);
-               //mensaje error en validaciones
+        //mensaje error en validaciones
         if ($validated->fails()) {
             return response()->json([
                 'status' => false,
@@ -57,7 +57,7 @@ class TipoAnimalController extends Controller
             ], 400);
         }
 
-        //Avtualizamos el medico y retornamos un mensaje de exito
+        //Actualizamos el tipo animal y retornamos un mensaje de exito
         $tipoAnimal = TipoAnimal::findOrfail($id);   
         $TipoAnimalActualizado = $tipoAnimal->update($request->all());
         return response()->json([

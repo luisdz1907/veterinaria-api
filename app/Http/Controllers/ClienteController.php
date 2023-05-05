@@ -49,16 +49,16 @@ class ClienteController extends Controller
 
 
 
-    public function putCliente(Request $request, string $id)
+    public function update(Request $request, string $id)
     {
         //Validaciones
         $rules = [
-            'nombres' => 'min:1',
-            'apellidos' => 'min:1',
-            'identificacion' => 'min:1',
-            'telefono' => 'min:1',
-            'email' => 'min:1',
-            'direccion' => 'min:1',
+            'nombres' => 'require|min:1',
+            'apellidos' => 'require|min:1',
+            'identificacion' => 'require|min:1',
+            'telefono' => 'require|min:1',
+            'email' => 'require|min:1|email',
+            'direccion' => 'require|min:1',
         ];
 
         $validated = FacadesValidator::make($request->all(), $rules);
@@ -69,18 +69,17 @@ class ClienteController extends Controller
                 'errors' => $validated->errors()->all()
             ], 400);
         }
-
-        //Avtualizamos el medico y retornamos un mensaje de exito
+        
+        //Actualizamos el cliente y retornamos un mensaje de exito
         $cliente = Cliente::findOrfail($id);   
-        $cliente->update($request->all());
+        $cliente->update($request->only(['nombres','apellidos','identificacion', 'telefono','email','direccion']));
         return response()->json([
             'status' => true,
             'message' => $cliente
         ], 200);
+        
 
 }
-
-
     public function deleteCliente(string $id)
     {
         $cliente = Cliente::findOrFail($id);
