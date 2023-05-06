@@ -24,7 +24,7 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nombre_tipo" => "required|min:5"
+            "nombre_tipo" => "required|min:4"
         ];
     }
 

@@ -53,17 +53,28 @@ class AuthController extends Controller
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
-        $user = User::create([
+
+
+        $user = new User([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password), //Encriptar constraseña
             'type' => 'Bearer'
         ]);
 
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->extension();
+            $request->image->move(public_path("profile-img"), $filename);
+            $user->profile_picture = $filename;
+        }
+
+        $user->save();
 
         return response()->json([
             'message' => 'User successfully registered',
@@ -98,6 +109,13 @@ class AuthController extends Controller
         }
     }
 
+    //Mostrar imagen 
+
+    public function viewImgUser()
+    {
+        // $pathToFile = public_path('images/mi-imagen.jpg');
+        // return response()->file($pathToFile);
+    }
     // Obtener La Informacion Completa Del Usuario
     public function userProfile()
     {
@@ -123,7 +141,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => 240,
+            'expires_in' => now()->addDays(5),
             'user' => auth()->user()
         ]);
     }
