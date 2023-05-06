@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("celular",45)->nullable();
             $table->string("email",100)->unique();
             $table->string("direccion",100);
-            $table->boolean('estado');
+            $table->boolean('estado')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
