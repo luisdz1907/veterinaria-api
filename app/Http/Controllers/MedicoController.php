@@ -9,11 +9,16 @@ use Illuminate\Support\Facades\Validator as FacadesValidator;
 
 class MedicoController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function getAllMedico()
     {
-        $medico = Medico::all();
+        $medico = Medico::orderBy('id', 'desc')->get();
         if ($medico->count() == 0) {
-            return response()->json(['message' => 'No existen medicos registrados'], 200);
+            return response()->json([
+                'message' => 'No existen medicos registrados'
+            ], 200);
         }
 
         return response()->json($medico);
@@ -24,6 +29,7 @@ class MedicoController extends Controller
     {
         $medico = new Medico($request->all());
         $medico->save();
+
         return response()->json([
             'status' => true,
             'message' => 'Medico creado'

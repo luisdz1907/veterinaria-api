@@ -11,7 +11,7 @@ class TipoAnimalController extends Controller
 {
     public function getAllTipoAnimal()
     {
-        $tipoanimal = TipoAnimal::all();
+        $tipoanimal = TipoAnimal::orderBy('id', 'desc')->get();
         
         //Mensaje de error
         return response()->json($tipoanimal);

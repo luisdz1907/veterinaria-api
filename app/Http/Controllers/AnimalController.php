@@ -13,7 +13,7 @@ class AnimalController extends Controller
      */
     public function getAllAnimal()
     {
-        $animal = Animal::all();
+        $animal = Animal::orderBy('id', 'desc')->get();
         return response()->json($animal);
         if ($animal->count() == 0) {
             return response()->json(['message' => 'No existen registros'],200);

@@ -12,7 +12,8 @@ class ClienteController extends Controller
 
     public function getAllClientes()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::orderBy('id', 'desc')->get();
+
         if ($clientes->count() == 0) {
             return response()->json(['message' => 'No existen clientes registrados'], 200);
         }
@@ -54,6 +55,7 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::findOrFail($id);
         $cliente->delete();
+        
         return response()->json([
             'status' => true,
             'message' => 'Cliente eliminado'
