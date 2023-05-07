@@ -19,8 +19,22 @@ class TipoAnimalController extends Controller
             return response()->json(['message' => 'No existen registros'], 200);
         }
 
-    }
+    }   
 
+    public function show(string $id)
+    {
+        $tipoanimal = TipoAnimal::findOrfail($id);
+
+        return response()->json($tipoanimal);
+        
+        if ($tipoanimal->count() == 0) {
+            return response()->json([
+                'Status' => false,
+                'message' => 'No está registrado en la base de datos'
+            ], 200);
+        }
+    }
+    
     public function postCreateTipoAnimal(CreateRequest $request)
     {
         $tipoanimal = new TipoAnimal($request->all());

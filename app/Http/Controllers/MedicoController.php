@@ -24,6 +24,16 @@ class MedicoController extends Controller
         return response()->json($medico);
     }
 
+    public function show($id)
+    {
+        $medico = Medico::findOrfail($id);
+
+        return response()->json($medico);
+
+        if ($medico->count() == 0 ) {
+            return response()->json(['Registro no encontrado']);
+        }
+    }
 
     public function postCreateMedico(CreateRequest $request)
     {

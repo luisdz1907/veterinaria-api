@@ -20,6 +20,11 @@ class AnimalController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $animal = Animal::findorfail($id);
+        return response()->json($animal);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -57,7 +62,7 @@ class AnimalController extends Controller
         //Si todo está Ok, retornamos un mensaje de OK
         return response()->json([
         'status' => true,
-        'message' => 'Animal creado'
+        'message' => $animal
         ]);
     }
 

@@ -21,6 +21,15 @@ class ClienteController extends Controller
         return response()->json($clientes);
     }
 
+    public function show($id)
+    {
+        $cliente = Cliente::findOrfail($id);
+        return response()->json($cliente);
+
+        if ($cliente->count() == 0) {
+            return response()->json(['No encontrado'],400);
+        }
+    }
 
     public function postCreateUser(CreateRequest $request)
     {

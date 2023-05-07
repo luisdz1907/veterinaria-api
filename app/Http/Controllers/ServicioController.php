@@ -25,6 +25,21 @@ class ServicioController extends Controller
         return response()->json($Servicios);
     }
 
+    public function show(string $id)
+    {
+        //Consultamos el id 
+        $servicios = Servicio::findOrfail($id);
+        //Lo mostramos en json
+        return response()->json($servicios);
+        //En caso de que no exista el id...
+        if (response($servicios->isEmpty())) {
+            return response()->json([
+                // 'Status' => false,
+                'message' => 'No hay registros en la base de datos'
+            ], 200);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
