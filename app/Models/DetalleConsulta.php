@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class DetalleConsulta extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'detalle',
+        'cita_id'
+    ];
+
 }
